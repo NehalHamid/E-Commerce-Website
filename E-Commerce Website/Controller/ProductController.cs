@@ -2,6 +2,7 @@
 using E_Commerce_Website.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,8 +24,16 @@ namespace E_Commerce_Website.Controller
             mapper = _mapper;
 
         }
+
+        [HttpGet("GetAll")]
+        public ActionResult getAll()
+        {
+            var lst = commerceContext.Products.ToList();
+            return Ok(lst);
+        }
+
         [HttpGet("SearchProduct")]
-        public ActionResult Search(String s)
+        public ActionResult Search(int s)
         {
             var product = commerceContext.Products.Find(s);
             if(product==null)
@@ -32,21 +41,30 @@ namespace E_Commerce_Website.Controller
                 return BadRequest("invalid");
             }
 
-
             return Ok(product);
         }
+
 
         [HttpPost("Addproduct")]
         public ActionResult Add(AddProduct product )
         {
 
-            Product p = mapper.Map<Product>(product);
+            //Product p = mapper.Map<Product>(product);
+            Product p = new Product
+            {
+                name = product.name,
+                price = product.price,
+                quantity = product.quantity,
+                ImagePath = product.ImagePath,
+                categoryid=product.categoryid
+            };
 
             commerceContext.Products.Add(p);
             commerceContext.SaveChanges();
 
             return Ok(p);
         }
+
 
         [HttpPut("UpdateProduct")]
         public ActionResult UpdateProduct([FromQuery] int Id, [FromBody] AddProduct product )
@@ -72,6 +90,8 @@ namespace E_Commerce_Website.Controller
 
             return Ok("Done");
         }
+
+
         [HttpDelete("DeleteProduct")]
         public ActionResult DeleteProduct([FromBody] int Id)
         {
@@ -86,6 +106,8 @@ namespace E_Commerce_Website.Controller
 
             return Ok("Done");
         }
+
+
         [HttpPost("AddImage")]
         public ActionResult AddImage(IFormFile file)
         {

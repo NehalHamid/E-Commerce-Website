@@ -27,10 +27,10 @@ namespace E_Commerce_Website.Controller
 
 
         [HttpPost("AddOrder")]
-        public ActionResult addOrder(OrderDTO order)
+        public ActionResult addOrder(Addorder order)
         {
             Order ord = new Order();
-            ord.customerid = order.customerId;
+            ord.customerid = order.customerid;
             ord.date = DateTime.Now;
 
             orders.Add(ord);
@@ -38,17 +38,16 @@ namespace E_Commerce_Website.Controller
             foreach (var item in order.list)
             {
                 Order_Item itemo = new Order_Item();
-                itemo.productid = (int)item.PId;
-                itemo.qty = item.Qty;
+                itemo.productid = (int)item.productid;
+                itemo.qty = item.qty;
                 itemo.orderid = ord.id;
 
-
                 ordersItems.Add(itemo);
-
             }
 
             return Ok("done");
         }
+
 
         [HttpDelete("DeleteOrder")]
         public ActionResult DeleteOrder([FromBody] int Id)
@@ -64,7 +63,6 @@ namespace E_Commerce_Website.Controller
 
             return Ok("Done");
         }
-
 
 
     }

@@ -18,6 +18,7 @@ namespace E_Commerce_Website.Model
         public string address { set; get; }
         public string phone { set; get; }
     }
+  
     public class Customer
     {
         public int id { set; get; }

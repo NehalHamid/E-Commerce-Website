@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_Website.Migrations
 {
     [DbContext(typeof(E_CommerceContext))]
-    [Migration("20220928151516_initial")]
-    partial class initial
+    [Migration("20221010101945_final")]
+    partial class final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,26 +40,6 @@ namespace E_Commerce_Website.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Administrators");
-                });
-
-            modelBuilder.Entity("E_Commerce_Website.Model.CartItem", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("PId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Qty")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("PId");
-
-                    b.ToTable("CartItem");
                 });
 
             modelBuilder.Entity("E_Commerce_Website.Model.Category", b =>
@@ -162,9 +142,6 @@ namespace E_Commerce_Website.Migrations
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("cart_item")
-                        .HasColumnType("int");
-
                     b.Property<int>("categoryid")
                         .HasColumnType("int");
 
@@ -179,22 +156,9 @@ namespace E_Commerce_Website.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("cart_item");
-
                     b.HasIndex("categoryid");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("E_Commerce_Website.Model.CartItem", b =>
-                {
-                    b.HasOne("E_Commerce_Website.Model.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("PId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("E_Commerce_Website.Model.Order", b =>
@@ -229,17 +193,11 @@ namespace E_Commerce_Website.Migrations
 
             modelBuilder.Entity("E_Commerce_Website.Model.Product", b =>
                 {
-                    b.HasOne("E_Commerce_Website.Model.CartItem", "cartItem")
-                        .WithMany()
-                        .HasForeignKey("cart_item");
-
                     b.HasOne("E_Commerce_Website.Model.Category", "category")
                         .WithMany("products")
                         .HasForeignKey("categoryid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("cartItem");
 
                     b.Navigation("category");
                 });

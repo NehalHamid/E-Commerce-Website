@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_Commerce_Website.Migrations
 {
-    public partial class initial : Migration
+    public partial class final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,6 +54,29 @@ namespace E_Commerce_Website.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    price = table.Column<double>(type: "float", nullable: false),
+                    quantity = table.Column<int>(type: "int", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    categoryid = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_categoryid",
+                        column: x => x.categoryid,
+                        principalTable: "Categories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -69,50 +92,6 @@ namespace E_Commerce_Website.Migrations
                         name: "FK_Orders_Customers_customerid",
                         column: x => x.customerid,
                         principalTable: "Customers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    price = table.Column<double>(type: "float", nullable: false),
-                    quantity = table.Column<int>(type: "int", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    categoryid = table.Column<int>(type: "int", nullable: false),
-                    cart_item = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Products_Categories_categoryid",
-                        column: x => x.categoryid,
-                        principalTable: "Categories",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CartItem",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PId = table.Column<int>(type: "int", nullable: false),
-                    Qty = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CartItem", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_CartItem_Products_PId",
-                        column: x => x.PId,
-                        principalTable: "Products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -145,11 +124,6 @@ namespace E_Commerce_Website.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItem_PId",
-                table: "CartItem",
-                column: "PId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Order_Items_orderid",
                 table: "Order_Items",
                 column: "orderid");
@@ -165,30 +139,13 @@ namespace E_Commerce_Website.Migrations
                 column: "customerid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_cart_item",
-                table: "Products",
-                column: "cart_item");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Products_categoryid",
                 table: "Products",
                 column: "categoryid");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Products_CartItem_cart_item",
-                table: "Products",
-                column: "cart_item",
-                principalTable: "CartItem",
-                principalColumn: "id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_CartItem_Products_PId",
-                table: "CartItem");
-
             migrationBuilder.DropTable(
                 name: "Administrators");
 
@@ -199,13 +156,10 @@ namespace E_Commerce_Website.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "CartItem");
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Categories");

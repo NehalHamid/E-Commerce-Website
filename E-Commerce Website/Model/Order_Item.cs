@@ -5,10 +5,16 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_Website.Model
 {
+    public class Orderdata
+    {
+
+        public int productid { set; get; }
+        public int qty { get; set; }
+        public int orderid { set; get; }
+    }
     public class Order_Item
     { 
         public int id { set; get; }
-
         public int qty { get; set; }
 
 

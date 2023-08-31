@@ -17,13 +17,22 @@ namespace E_Commerce_Website.Model
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"
-                          Data Source=SQL8001.site4now.net;
-                          Initial Catalog=db_a8d18f_nehalhamid;
-                          User Id=db_a8d18f_nehalhamid_admin;
-                          Password=NaNaJK223");
+            optionsBuilder.UseSqlServer(@"Data Source=SQL8001.site4now.net;
+                                          Initial Catalog=db_a8d18f_nehalhamid;
+                                          User Id=db_a8d18f_nehalhamid_admin;
+                                          Password=NaNaJK223;");
         }
 
     }
 }
+/*
+ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"
+                           Server =NEHALHAMID;
+                           Database=E-commerceDb;
+                           Trusted_Connection=True;");
 
+        }
+  
+ */

@@ -26,6 +26,8 @@ namespace E_Commerce_Website
 
             services.AddControllers().AddNewtonsoftJson(o =>
             o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddCors();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +45,7 @@ namespace E_Commerce_Website
                 RequestPath = "/Images"
             });
             app.UseRouting();
+            app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseSwagger();
            // app.UseSwaggerUI();
             app.UseSwaggerUI(c =>

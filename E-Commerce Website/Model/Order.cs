@@ -4,7 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace E_Commerce_Website.Model
-{
+{ 
+    public class Addorder
+    {
+       
+        public DateTime date { set; get; }
+        public int customerid { set; get; }
+        //  public ICollection<Order_Item> items { set; get; }
+        public List<Orderdata> list { get; set; }
+    }
     public class Order
     {
         public int id { set; get; }
